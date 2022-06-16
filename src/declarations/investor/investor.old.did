@@ -1,0 +1,28 @@
+type UserId = principal;
+type Result_1 = 
+ variant {
+   err: Error;
+   ok;
+ };
+type Result = 
+ variant {
+   err: Error;
+   ok: Profile;
+ };
+type Profile = 
+ record {
+   id: UserId;
+   investedPositions: vec nat;
+ };
+type Error = 
+ variant {
+   AlreadyExists;
+   NotAuthorized;
+   NotEnoughFamePoints;
+   NotFound;
+ };
+service : {
+  create: () -> (Result_1);
+  delete: () -> (Result_1);
+  read: () -> (Result);
+}

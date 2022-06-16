@@ -1,0 +1,52 @@
+type Result_1 = 
+ variant {
+   err: Error;
+   ok;
+ };
+type Result = 
+ variant {
+   err: Error;
+   ok: Position;
+ };
+type PositionId = int;
+type Position = 
+ record {
+   active: bool;
+   closingTime: int;
+   creationTime: int;
+   demoPosition: bool;
+   exchange: Exchange;
+   id: PositionId;
+   investorIds: vec InvestorId;
+   openerId: OpenerId;
+   pair: Pair;
+   spotPrice: float64;
+   stopLossPrice: float64;
+   successfulPosition: opt bool;
+   targetPrice: float64;
+ };
+type Pair = 
+ variant {
+   BNBUSDT;
+   BTCUSDT;
+ };
+type OpenerId = principal;
+type InvestorId = principal;
+type Exchange = variant {Binance;};
+type Error = 
+ variant {
+   AlreadyExists;
+   ClosingTimeInPast;
+   NotAuthorized;
+   NotEnoughFamePoints;
+   NotFound;
+   PositionAlreadyClosed;
+   StopLossHigherThanSpot;
+   TargetLowerThanSpot;
+ };
+service : {
+  closePosition: (PositionId) -> (Result_1);
+  openPosition: (Pair, Exchange, float64, float64, float64, int, bool) ->
+   (Result_1);
+  readPosition: (PositionId) -> (Result);
+}
