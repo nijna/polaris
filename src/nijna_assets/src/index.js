@@ -1,4 +1,4 @@
-import { nijna } from "../../declarations/nijna";
+import { nijna } from "../../declarations/nijna_assets";
 
 document.querySelector("form").addEventListener("submit", async (e) => {
   e.preventDefault();

@@ -1,12 +1,20 @@
 {
   "canisters": {
-    "nijna": {
-      "main": "src/nijna/main.mo",
+    "trader": {
+      "main": "src/trader/main.mo",
+      "type": "motoko"
+    },
+    "investor": {
+      "main": "src/investor/main.mo",
+      "type": "motoko"
+    },
+    "position": {
+      "main": "src/position/main.mo",
       "type": "motoko"
     },
     "nijna_assets": {
       "dependencies": [
-        "nijna"
+        "trader"
       ],
       "frontend": {
         "entrypoint": "src/nijna_assets/src/index.html"
@@ -24,7 +32,7 @@
       "packtool": ""
     }
   },
-  "dfx": "0.10.0",
+  "dfx": "0.10.1",
   "networks": {
     "local": {
       "bind": "127.0.0.1:8000",
