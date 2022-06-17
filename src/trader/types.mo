@@ -5,14 +5,21 @@ module {
 
     public type FamePoints = Nat;
 
+    public type InvestorId = Principal;
+
     public type Profile = {
         id: UserId;
+        creationTime: Int;
         famePoints: FamePoints;
+        country: ?Text;
         displayName: Text;
         bio: ?Text;
         openedPositions: Nat;
         successfulPositions: Nat;
-        failedPositions: Nat;    
+        failedPositions: Nat;
+        followers: [InvestorId];
+        assesedRisk: ?Nat;
+        level: Nat;
     };
 
 

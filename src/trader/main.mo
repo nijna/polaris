@@ -1,4 +1,6 @@
 import Trie "mo:base/Trie";
+import Iter "mo:base/Iter";
+import Time "mo:base/Time";
 import Hash "mo:base/Hash";
 import Nat "mo:base/Nat";
 import Result "mo:base/Result";
@@ -19,7 +21,7 @@ actor Trader {
     stable var profiles : Trie.Trie<Types.UserId, Types.Profile> = Trie.empty();
 
 
-    public shared(msg) func createTraderProfile (displayName: Text) : async Result.Result<(), Error> {
+    public shared(msg) func createTraderProfile (displayName: Text, country: ?Text , bio: ?Text) : async Result.Result<(), Error> {
         // Get caller principal
         let callerId = msg.caller;
 
@@ -31,12 +33,17 @@ actor Trader {
         // Associate user profile with their principal
         let userProfile: Types.Profile = {
             id = callerId;
+            creationTime = Time.now();
             displayName = displayName;
+            country = country;
             famePoints = 0;
             openedPositions = 0;
             successfulPositions = 0;
             failedPositions = 0;
-            bio = null;
+            bio = bio;
+            followers = [];
+            assesedRisk = null;
+            level = 1;
         };
 
         let (newProfiles, existing) = Trie.put(
@@ -102,12 +109,17 @@ actor Trader {
             case (? v) {
                 let updateProfile: Types.Profile = {
                     id = callerId;
+                    creationTime = v.creationTime;
+                    country = v.country;
                     displayName = v.displayName;
                     famePoints = v.famePoints;
                     openedPositions = v.openedPositions;
                     successfulPositions = v.successfulPositions;
                     failedPositions = v.failedPositions;
                     bio = ?bio;
+                    followers = v.followers;
+                    assesedRisk = v.assesedRisk;
+                    level = v.level;
                 };
                 profiles := Trie.replace(
                     profiles,           // Target trie
@@ -185,6 +197,11 @@ actor Trader {
                 return v.famePoints
             };
         };
+    };
+
+    // read All trader profiles    
+    public func readAllTraderProfiles () : async [(Types.UserId, Types.Profile)] {
+        let arrayTraderProfiles : [(Types.UserId, Types.Profile)] = Iter.toArray(Trie.iter(profiles));
     };
 
     private func key(x : Principal) : Trie.Key<Principal> {

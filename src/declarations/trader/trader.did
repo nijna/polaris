@@ -11,14 +11,20 @@ type Result =
  };
 type Profile = 
  record {
+   assesedRisk: opt nat;
    bio: opt text;
+   country: opt text;
+   creationTime: int;
    displayName: text;
    failedPositions: nat;
    famePoints: FamePoints;
+   followers: vec InvestorId;
    id: UserId;
+   level: nat;
    openedPositions: nat;
    successfulPositions: nat;
  };
+type InvestorId = principal;
 type FamePoints = nat;
 type Error = 
  variant {
@@ -28,8 +34,12 @@ type Error =
    NotFound;
  };
 service : {
-  createTraderProfile: (text) -> (Result);
+  createTraderProfile: (text, opt text, opt text) -> (Result);
   deleteTraderProfile: () -> (Result);
+  readAllTraderProfiles: () -> (vec record {
+                                      UserId;
+                                      Profile;
+                                    });
   readTraderFamePoints: (UserId) -> (FamePoints);
   readTraderProfile: () -> (Result_1);
   traderPrincipalExists: (UserId) -> (bool);

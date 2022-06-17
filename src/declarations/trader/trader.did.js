@@ -8,19 +8,34 @@ export const idlFactory = ({ IDL }) => {
   const Result = IDL.Variant({ 'ok' : IDL.Null, 'err' : Error });
   const UserId = IDL.Principal;
   const FamePoints = IDL.Nat;
+  const InvestorId = IDL.Principal;
   const Profile = IDL.Record({
     'id' : UserId,
     'bio' : IDL.Opt(IDL.Text),
+    'country' : IDL.Opt(IDL.Text),
     'displayName' : IDL.Text,
+    'assesedRisk' : IDL.Opt(IDL.Nat),
+    'level' : IDL.Nat,
     'famePoints' : FamePoints,
+    'creationTime' : IDL.Int,
     'successfulPositions' : IDL.Nat,
+    'followers' : IDL.Vec(InvestorId),
     'failedPositions' : IDL.Nat,
     'openedPositions' : IDL.Nat,
   });
   const Result_1 = IDL.Variant({ 'ok' : Profile, 'err' : Error });
   return IDL.Service({
-    'createTraderProfile' : IDL.Func([IDL.Text], [Result], []),
+    'createTraderProfile' : IDL.Func(
+        [IDL.Text, IDL.Opt(IDL.Text), IDL.Opt(IDL.Text)],
+        [Result],
+        [],
+      ),
     'deleteTraderProfile' : IDL.Func([], [Result], []),
+    'readAllTraderProfiles' : IDL.Func(
+        [],
+        [IDL.Vec(IDL.Tuple(UserId, Profile))],
+        [],
+      ),
     'readTraderFamePoints' : IDL.Func([UserId], [FamePoints], []),
     'readTraderProfile' : IDL.Func([], [Result_1], []),
     'traderPrincipalExists' : IDL.Func([UserId], [IDL.Bool], []),

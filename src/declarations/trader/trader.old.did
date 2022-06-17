@@ -28,10 +28,10 @@ type Error =
    NotFound;
  };
 service : {
-  create: (text) -> (Result);
-  delete: () -> (Result);
-  principalExists: (UserId) -> (bool);
-  read: () -> (Result_1);
-  readFamePoints: (UserId) -> (FamePoints);
-  updateBio: (text) -> (Result);
+  createInvestor: (text) -> (Result);
+  deleteInvestorProfile: () -> (Result);
+  investorPrincipalExists: (UserId) -> (bool);
+  readInvestorFamePoints: (UserId) -> (FamePoints);
+  readInvestorProfile: () -> (Result_1);
+  updateInvestorBio: (text) -> (Result);
 }

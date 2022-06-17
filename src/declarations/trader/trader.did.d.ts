@@ -6,12 +6,18 @@ export type Error = { 'NotEnoughFamePoints' : null } |
   { 'NotAuthorized' : null } |
   { 'AlreadyExists' : null };
 export type FamePoints = bigint;
+export type InvestorId = Principal;
 export interface Profile {
   'id' : UserId,
   'bio' : [] | [string],
+  'country' : [] | [string],
   'displayName' : string,
+  'assesedRisk' : [] | [bigint],
+  'level' : bigint,
   'famePoints' : FamePoints,
+  'creationTime' : bigint,
   'successfulPositions' : bigint,
+  'followers' : Array<InvestorId>,
   'failedPositions' : bigint,
   'openedPositions' : bigint,
 }
@@ -21,8 +27,12 @@ export type Result_1 = { 'ok' : Profile } |
   { 'err' : Error };
 export type UserId = Principal;
 export interface _SERVICE {
-  'createTraderProfile' : ActorMethod<[string], Result>,
+  'createTraderProfile' : ActorMethod<
+    [string, [] | [string], [] | [string]],
+    Result,
+  >,
   'deleteTraderProfile' : ActorMethod<[], Result>,
+  'readAllTraderProfiles' : ActorMethod<[], Array<[UserId, Profile]>>,
   'readTraderFamePoints' : ActorMethod<[UserId], FamePoints>,
   'readTraderProfile' : ActorMethod<[], Result_1>,
   'traderPrincipalExists' : ActorMethod<[UserId], boolean>,
