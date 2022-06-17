@@ -1,3 +1,5 @@
+import Array "mo:base/Array";
+import Iter "mo:base/Iter";
 import Trie "mo:base/Trie";
 import Int "mo:base/Int";
 import Result "mo:base/Result";
@@ -40,7 +42,7 @@ actor Position {
 
         let callerId : Types.UserId = msg.caller;
 
-        let exists : Bool = await Trader.principalExists(callerId);
+        let exists : Bool = await Trader.investorPrincipalExists(callerId);
 
         if (targetPrice < spotPrice) {
             return #err(#TargetLowerThanSpot)
@@ -63,7 +65,7 @@ actor Position {
         };
 
         // Check if there is enough Fame Points
-        let traderFamePoints : Types.FamePoints = await Trader.readFamePoints(callerId);
+        let traderFamePoints : Types.FamePoints = await Trader.readInvestorFamePoints(callerId);
         if ((traderFamePoints < 200) and (demoPosition == false)) {
             return #err(#NotEnoughFamePoints);
         };
@@ -161,6 +163,14 @@ actor Position {
         };
 
     };
+
+    // public func getActivePositions () : async [(Types.PositionId, Types.Position)]  {
+    //     let activePositions = Trie.filter<Types.PositionId, Types.Position>(positions, func (k, v) {
+    //         (v.active == true) and (v.closingTime > Time.now())
+    //     });
+    //     let arrayActivePositions : [(Types.PositionId, Types.Position)] = Iter.toArray(Trie.iter(activePositions));
+    //     return activePositions
+    // };
 
     private func key(x : Int) : Trie.Key<Int> {
         return { key = x; hash = Int.hash(x) }

@@ -19,7 +19,7 @@ actor Trader {
     stable var profiles : Trie.Trie<Types.UserId, Types.Profile> = Trie.empty();
 
 
-    public shared(msg) func create (displayName: Text) : async Result.Result<(), Error> {
+    public shared(msg) func createInvestor (displayName: Text) : async Result.Result<(), Error> {
         // Get caller principal
         let callerId = msg.caller;
 
@@ -61,7 +61,7 @@ actor Trader {
     };
 
     // Read profile
-    public shared(msg) func read () : async Result.Result<Types.Profile, Error> {
+    public shared(msg) func readInvestorProfile () : async Result.Result<Types.Profile, Error> {
         // Get caller principal
         let callerId = msg.caller;
 
@@ -79,7 +79,7 @@ actor Trader {
     };
 
     // Update bio
-    public shared(msg) func updateBio (bio: Text) : async Result.Result<(), Error> {
+    public shared(msg) func updateInvestorBio (bio: Text) : async Result.Result<(), Error> {
         // Get caller principal
         let callerId = msg.caller;
 
@@ -121,7 +121,7 @@ actor Trader {
     };
 
     // Delete profile
-    public shared(msg) func delete () : async Result.Result<(), Error> {
+    public shared(msg) func deleteInvestorProfile () : async Result.Result<(), Error> {
         // Get caller principal
         let callerId = msg.caller;
 
@@ -154,7 +154,7 @@ actor Trader {
     };
 
     // Chack if investor with given Principal exists
-    public shared func principalExists (userId: Types.UserId) : async Bool {
+    public shared func investorPrincipalExists (userId: Types.UserId) : async Bool {
         let result = Trie.find(
             profiles,
             key(userId),
@@ -171,7 +171,7 @@ actor Trader {
     };
 
     // read traders Fame Points
-    public shared func readFamePoints (userId: Types.UserId) : async Types.FamePoints {
+    public shared func readInvestorFamePoints (userId: Types.UserId) : async Types.FamePoints {
         let r = Trie.find(
             profiles,
             key(userId),

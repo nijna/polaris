@@ -19,12 +19,12 @@ export const idlFactory = ({ IDL }) => {
   });
   const Result_1 = IDL.Variant({ 'ok' : Profile, 'err' : Error });
   return IDL.Service({
-    'create' : IDL.Func([IDL.Text], [Result], []),
-    'delete' : IDL.Func([], [Result], []),
-    'principalExists' : IDL.Func([UserId], [IDL.Bool], []),
-    'read' : IDL.Func([], [Result_1], []),
-    'readFamePoints' : IDL.Func([UserId], [FamePoints], []),
-    'updateBio' : IDL.Func([IDL.Text], [Result], []),
+    'createInvestor' : IDL.Func([IDL.Text], [Result], []),
+    'deleteInvestorProfile' : IDL.Func([], [Result], []),
+    'investorPrincipalExists' : IDL.Func([UserId], [IDL.Bool], []),
+    'readInvestorFamePoints' : IDL.Func([UserId], [FamePoints], []),
+    'readInvestorProfile' : IDL.Func([], [Result_1], []),
+    'updateInvestorBio' : IDL.Func([IDL.Text], [Result], []),
   });
 };
 export const init = ({ IDL }) => { return []; };
