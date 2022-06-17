@@ -21,10 +21,10 @@ export type Result_1 = { 'ok' : Profile } |
   { 'err' : Error };
 export type UserId = Principal;
 export interface _SERVICE {
-  'createInvestor' : ActorMethod<[string], Result>,
-  'deleteInvestorProfile' : ActorMethod<[], Result>,
-  'investorPrincipalExists' : ActorMethod<[UserId], boolean>,
-  'readInvestorFamePoints' : ActorMethod<[UserId], FamePoints>,
-  'readInvestorProfile' : ActorMethod<[], Result_1>,
-  'updateInvestorBio' : ActorMethod<[string], Result>,
+  'createTraderProfile' : ActorMethod<[string], Result>,
+  'deleteTraderProfile' : ActorMethod<[], Result>,
+  'readTraderFamePoints' : ActorMethod<[UserId], FamePoints>,
+  'readTraderProfile' : ActorMethod<[], Result_1>,
+  'traderPrincipalExists' : ActorMethod<[UserId], boolean>,
+  'updateTraderBio' : ActorMethod<[string], Result>,
 }

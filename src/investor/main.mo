@@ -7,7 +7,7 @@ import Principal "mo:base/Principal";
 
 import Types "./types";
 
-actor Trader {
+actor Investor {
 
     public type Error = {
         #NotFound;
@@ -18,7 +18,7 @@ actor Trader {
     
     stable var profiles : Trie.Trie<Types.UserId, Types.Profile> = Trie.empty();
 
-    public shared(msg) func createTraderProfile () : async Result.Result<(), Error> {
+    public shared(msg) func createInvestorProfile () : async Result.Result<(), Error> {
         // Get caller principal
         let callerId = msg.caller;
 
@@ -55,7 +55,7 @@ actor Trader {
     };
 
     // Read profile
-    public shared(msg) func readTraderProfile () : async Result.Result<Types.Profile, Error> {
+    public shared(msg) func readInvestorProfile () : async Result.Result<Types.Profile, Error> {
         // Get caller principal
         let callerId = msg.caller;
 
@@ -74,7 +74,7 @@ actor Trader {
 
 
     // Delete profile
-    public shared(msg) func deleteTraderProfile () : async Result.Result<(), Error> {
+    public shared(msg) func deleteInvestorProfile () : async Result.Result<(), Error> {
         // Get caller principal
         let callerId = msg.caller;
 

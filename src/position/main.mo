@@ -42,7 +42,7 @@ actor Position {
 
         let callerId : Types.UserId = msg.caller;
 
-        let exists : Bool = await Trader.investorPrincipalExists(callerId);
+        let exists : Bool = await Trader.traderPrincipalExists(callerId);
 
         if (targetPrice < spotPrice) {
             return #err(#TargetLowerThanSpot)
@@ -59,13 +59,13 @@ actor Position {
         //     return #err(#NotAuthorized);
         // };
 
-        // Check if caller exists as investor
+        // Check if caller exists as trader
         if (exists != true) {
             return #err(#NotAuthorized);
         };
 
         // Check if there is enough Fame Points
-        let traderFamePoints : Types.FamePoints = await Trader.readInvestorFamePoints(callerId);
+        let traderFamePoints : Types.FamePoints = await Trader.readTraderFamePoints(callerId);
         if ((traderFamePoints < 200) and (demoPosition == false)) {
             return #err(#NotEnoughFamePoints);
         };

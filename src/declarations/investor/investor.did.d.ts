@@ -12,7 +12,7 @@ export type Result_1 = { 'ok' : null } |
   { 'err' : Error };
 export type UserId = Principal;
 export interface _SERVICE {
-  'create' : ActorMethod<[], Result_1>,
-  'delete' : ActorMethod<[], Result_1>,
-  'read' : ActorMethod<[], Result>,
+  'createInvestorProfile' : ActorMethod<[], Result_1>,
+  'deleteInvestorProfile' : ActorMethod<[], Result_1>,
+  'readInvestorProfile' : ActorMethod<[], Result>,
 }

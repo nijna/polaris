@@ -22,7 +22,7 @@ type Error =
    NotFound;
  };
 service : {
-  createInvestorProfile: () -> (Result_1);
-  deleteInvestorProfile: () -> (Result_1);
-  readInvestorProfile: () -> (Result);
+  create: () -> (Result_1);
+  delete: () -> (Result_1);
+  read: () -> (Result);
 }
