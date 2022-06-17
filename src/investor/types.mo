@@ -3,10 +3,14 @@ import Principal "mo:base/Principal";
 module {
     public type UserId = Principal;
     public type PositionId = Nat;
+    public type TraderId = Principal;
 
     public type Profile = {
         id: UserId;
-        investedPositions: [Nat];
+        displayName: Text;
+        investedPositions: [PositionId];
+        bio: ?Text;
+        follows: [TraderId];
         
     };
 

@@ -18,7 +18,7 @@ actor Investor {
     
     stable var profiles : Trie.Trie<Types.UserId, Types.Profile> = Trie.empty();
 
-    public shared(msg) func createInvestorProfile () : async Result.Result<(), Error> {
+    public shared(msg) func createInvestorProfile (displayName : Text, bio : ?Text) : async Result.Result<(), Error> {
         // Get caller principal
         let callerId = msg.caller;
 
@@ -30,7 +30,10 @@ actor Investor {
         // Associate user profile with their principal
         let userProfile: Types.Profile = {
             id = callerId;
+            displayName = displayName;
             investedPositions = [];
+            bio = bio;
+            follows = [];
         };
 
         let (newProfiles, existing) = Trie.put(

@@ -5,14 +5,22 @@ export type Error = { 'NotEnoughFamePoints' : null } |
   { 'NotFound' : null } |
   { 'NotAuthorized' : null } |
   { 'AlreadyExists' : null };
-export interface Profile { 'id' : UserId, 'investedPositions' : Array<bigint> }
+export type PositionId = bigint;
+export interface Profile {
+  'id' : UserId,
+  'bio' : [] | [string],
+  'displayName' : string,
+  'investedPositions' : Array<PositionId>,
+  'follows' : Array<TraderId>,
+}
 export type Result = { 'ok' : Profile } |
   { 'err' : Error };
 export type Result_1 = { 'ok' : null } |
   { 'err' : Error };
+export type TraderId = Principal;
 export type UserId = Principal;
 export interface _SERVICE {
-  'createInvestorProfile' : ActorMethod<[], Result_1>,
+  'createInvestorProfile' : ActorMethod<[string, [] | [string]], Result_1>,
   'deleteInvestorProfile' : ActorMethod<[], Result_1>,
   'readInvestorProfile' : ActorMethod<[], Result>,
 }

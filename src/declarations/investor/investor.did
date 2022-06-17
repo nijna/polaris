@@ -1,4 +1,5 @@
 type UserId = principal;
+type TraderId = principal;
 type Result_1 = 
  variant {
    err: Error;
@@ -11,9 +12,13 @@ type Result =
  };
 type Profile = 
  record {
+   bio: opt text;
+   displayName: text;
+   follows: vec TraderId;
    id: UserId;
-   investedPositions: vec nat;
+   investedPositions: vec PositionId;
  };
+type PositionId = nat;
 type Error = 
  variant {
    AlreadyExists;
@@ -22,7 +27,7 @@ type Error =
    NotFound;
  };
 service : {
-  createInvestorProfile: () -> (Result_1);
+  createInvestorProfile: (text, opt text) -> (Result_1);
   deleteInvestorProfile: () -> (Result_1);
   readInvestorProfile: () -> (Result);
 }
