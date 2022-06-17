@@ -12,8 +12,8 @@ export const idlFactory = ({ IDL }) => {
   });
   const Result_1 = IDL.Variant({ 'ok' : IDL.Null, 'err' : Error });
   const Pair = IDL.Variant({ 'BTCUSDT' : IDL.Null, 'BNBUSDT' : IDL.Null });
-  const Exchange = IDL.Variant({ 'Binance' : IDL.Null });
   const InvestorId = IDL.Principal;
+  const Exchange = IDL.Variant({ 'Binance' : IDL.Null });
   const OpenerId = IDL.Principal;
   const Position = IDL.Record({
     'id' : PositionId,
@@ -33,6 +33,51 @@ export const idlFactory = ({ IDL }) => {
   const Result = IDL.Variant({ 'ok' : Position, 'err' : Error });
   return IDL.Service({
     'closePosition' : IDL.Func([PositionId], [Result_1], []),
+    'getAllActivePositions' : IDL.Func(
+        [],
+        [IDL.Vec(IDL.Tuple(PositionId, Position))],
+        [],
+      ),
+    'getAllActivePositionsByInvestor' : IDL.Func(
+        [InvestorId],
+        [IDL.Vec(IDL.Tuple(PositionId, Position))],
+        [],
+      ),
+    'getAllActivePositionsByTrader' : IDL.Func(
+        [OpenerId],
+        [IDL.Vec(IDL.Tuple(PositionId, Position))],
+        [],
+      ),
+    'getAllClosedPositions' : IDL.Func(
+        [],
+        [IDL.Vec(IDL.Tuple(PositionId, Position))],
+        [],
+      ),
+    'getAllClosedPositionsByInvestor' : IDL.Func(
+        [InvestorId],
+        [IDL.Vec(IDL.Tuple(PositionId, Position))],
+        [],
+      ),
+    'getAllClosedPositionsByTrader' : IDL.Func(
+        [OpenerId],
+        [IDL.Vec(IDL.Tuple(PositionId, Position))],
+        [],
+      ),
+    'getAllPositions' : IDL.Func(
+        [],
+        [IDL.Vec(IDL.Tuple(PositionId, Position))],
+        [],
+      ),
+    'getAllPositionsByInvestor' : IDL.Func(
+        [InvestorId],
+        [IDL.Vec(IDL.Tuple(PositionId, Position))],
+        [],
+      ),
+    'getAllPositionsByTrader' : IDL.Func(
+        [OpenerId],
+        [IDL.Vec(IDL.Tuple(PositionId, Position))],
+        [],
+      ),
     'openPosition' : IDL.Func(
         [
           Pair,

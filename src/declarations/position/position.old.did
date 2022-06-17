@@ -46,6 +46,15 @@ type Error =
  };
 service : {
   closePosition: (PositionId) -> (Result_1);
+  getAllActivePositions: () -> (vec record {
+                                      PositionId;
+                                      Position;
+                                    });
+  getAllActivePositionsByTrader: (OpenerId) ->
+   (vec record {
+          PositionId;
+          Position;
+        });
   openPosition: (Pair, Exchange, float64, float64, float64, int, bool) ->
    (Result_1);
   readPosition: (PositionId) -> (Result);

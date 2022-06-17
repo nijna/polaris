@@ -46,6 +46,47 @@ type Error =
  };
 service : {
   closePosition: (PositionId) -> (Result_1);
+  getAllActivePositions: () -> (vec record {
+                                      PositionId;
+                                      Position;
+                                    });
+  getAllActivePositionsByInvestor: (InvestorId) ->
+   (vec record {
+          PositionId;
+          Position;
+        });
+  getAllActivePositionsByTrader: (OpenerId) ->
+   (vec record {
+          PositionId;
+          Position;
+        });
+  getAllClosedPositions: () -> (vec record {
+                                      PositionId;
+                                      Position;
+                                    });
+  getAllClosedPositionsByInvestor: (InvestorId) ->
+   (vec record {
+          PositionId;
+          Position;
+        });
+  getAllClosedPositionsByTrader: (OpenerId) ->
+   (vec record {
+          PositionId;
+          Position;
+        });
+  getAllPositions: () -> (vec record {
+                                PositionId;
+                                Position;
+                              });
+  getAllPositionsByInvestor: (InvestorId) ->
+   (vec record {
+          PositionId;
+          Position;
+        });
+  getAllPositionsByTrader: (OpenerId) -> (vec record {
+                                                PositionId;
+                                                Position;
+                                              });
   openPosition: (Pair, Exchange, float64, float64, float64, int, bool) ->
    (Result_1);
   readPosition: (PositionId) -> (Result);
