@@ -1,0 +1,33 @@
+type UserId = principal;
+type TraderId = principal;
+type Result_1 = 
+ variant {
+   err: Error;
+   ok;
+ };
+type Result = 
+ variant {
+   err: Error;
+   ok: Profile;
+ };
+type Profile = 
+ record {
+   bio: opt text;
+   displayName: text;
+   follows: vec TraderId;
+   id: UserId;
+   investedPositions: vec PositionId;
+ };
+type PositionId = nat;
+type Error = 
+ variant {
+   AlreadyExists;
+   NotAuthorized;
+   NotEnoughFamePoints;
+   NotFound;
+ };
+service : {
+  createInvestorProfile: (text, opt text) -> (Result_1);
+  deleteInvestorProfile: () -> (Result_1);
+  readInvestorProfile: () -> (Result);
+}

@@ -36,6 +36,33 @@ export type Result_1 = { 'ok' : null } |
   { 'err' : Error };
 export interface _SERVICE {
   'closePosition' : ActorMethod<[PositionId], Result_1>,
+  'getAllActivePositions' : ActorMethod<[], Array<[PositionId, Position]>>,
+  'getAllActivePositionsByInvestor' : ActorMethod<
+    [InvestorId],
+    Array<[PositionId, Position]>,
+  >,
+  'getAllActivePositionsByTrader' : ActorMethod<
+    [OpenerId],
+    Array<[PositionId, Position]>,
+  >,
+  'getAllClosedPositions' : ActorMethod<[], Array<[PositionId, Position]>>,
+  'getAllClosedPositionsByInvestor' : ActorMethod<
+    [InvestorId],
+    Array<[PositionId, Position]>,
+  >,
+  'getAllClosedPositionsByTrader' : ActorMethod<
+    [OpenerId],
+    Array<[PositionId, Position]>,
+  >,
+  'getAllPositions' : ActorMethod<[], Array<[PositionId, Position]>>,
+  'getAllPositionsByInvestor' : ActorMethod<
+    [InvestorId],
+    Array<[PositionId, Position]>,
+  >,
+  'getAllPositionsByTrader' : ActorMethod<
+    [OpenerId],
+    Array<[PositionId, Position]>,
+  >,
   'openPosition' : ActorMethod<
     [Pair, Exchange, number, number, number, bigint, boolean],
     Result_1,
