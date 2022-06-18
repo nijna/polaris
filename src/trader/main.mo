@@ -1,5 +1,6 @@
 import Trie "mo:base/Trie";
 import Iter "mo:base/Iter";
+import Array "mo:base/Array";
 import Time "mo:base/Time";
 import Hash "mo:base/Hash";
 import Nat "mo:base/Nat";
@@ -202,6 +203,97 @@ actor Trader {
     // read All trader profiles    
     public func readAllTraderProfiles () : async [(Types.UserId, Types.Profile)] {
         let arrayTraderProfiles : [(Types.UserId, Types.Profile)] = Iter.toArray(Trie.iter(profiles));
+    };
+
+    public shared(msg) func followTrader(traderId: Types.UserId, investorId : Types.InvestorId) : async Bool {
+        let trader = Trie.find(
+            profiles,
+            key(traderId),
+            Principal.equal
+        );
+        let callerId = msg.caller;
+        // TODO: add check if caller was Investor canister!
+
+        switch(trader) {
+            case(null) {
+                return false
+            };
+            case(? v) {
+
+                let followerExists = Array.find<Types.InvestorId>(v.followers, func(x : Types.InvestorId) { Principal.equal(x , investorId ) });
+                if (followerExists != null) {
+                    return false
+                };
+
+                let followers = Array.append<Principal>([investorId], v.followers);
+
+                let updateProfile: Types.Profile = {
+                    id = traderId;
+                    creationTime = v.creationTime;
+                    country = v.country;
+                    displayName = v.displayName;
+                    famePoints = v.famePoints;
+                    openedPositions = v.openedPositions;
+                    successfulPositions = v.successfulPositions;
+                    failedPositions = v.failedPositions;
+                    bio = v.bio;
+                    followers = followers;
+                    assesedRisk = v.assesedRisk;
+                    level = v.level;
+                };
+                profiles := Trie.replace(
+                    profiles,           // Target trie
+                    key(traderId),      // Key
+                    Principal.equal,    // Equality checker
+                    ?updateProfile
+                ).0;
+
+                return true
+            }
+        };
+    };
+
+    public shared(msg) func unfollowTrader(traderId: Types.UserId, investorId : Types.InvestorId) : async Bool {
+        let trader = Trie.find(
+            profiles,
+            key(traderId),
+            Principal.equal
+        );
+        let callerId = msg.caller;
+        // TODO: add check if caller was Investor canister!
+        
+        switch(trader) {
+            case(null) {
+                return false
+            };
+            case(? v) {
+
+                let followers = Array.filter(v.followers, func(x: Types.InvestorId) : Bool { x != investorId });
+
+                let updateProfile: Types.Profile = {
+                    id = traderId;
+                    creationTime = v.creationTime;
+                    country = v.country;
+                    displayName = v.displayName;
+                    famePoints = v.famePoints;
+                    openedPositions = v.openedPositions;
+                    successfulPositions = v.successfulPositions;
+                    failedPositions = v.failedPositions;
+                    bio = v.bio;
+                    followers = followers;
+                    assesedRisk = v.assesedRisk;
+                    level = v.level;
+                };
+                profiles := Trie.replace(
+                    profiles,           // Target trie
+                    key(traderId),      // Key
+                    Principal.equal,    // Equality checker
+                    ?updateProfile
+                ).0;
+
+                return true
+            }
+        };
     };
 
     private func key(x : Principal) : Trie.Key<Principal> {

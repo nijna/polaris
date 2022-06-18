@@ -36,6 +36,7 @@ type Error =
 service : {
   createTraderProfile: (text, opt text, opt text) -> (Result);
   deleteTraderProfile: () -> (Result);
+  followTrader: (UserId, InvestorId) -> (bool);
   readAllTraderProfiles: () -> (vec record {
                                       UserId;
                                       Profile;
@@ -43,5 +44,6 @@ service : {
   readTraderFamePoints: (UserId) -> (FamePoints);
   readTraderProfile: () -> (Result_1);
   traderPrincipalExists: (UserId) -> (bool);
+  unfollowTrader: (UserId, InvestorId) -> (bool);
   updateTraderBio: (text) -> (Result);
 }
