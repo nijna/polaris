@@ -13,3 +13,7 @@
 # frontend code
 node_modules/
 dist/
+
+src/declarations/*/*.did
+src/declarations/*/*.did.d.ts
+src/declarations/*/*.did.js
