@@ -3,12 +3,12 @@ type TraderId = principal;
 type Result_1 = 
  variant {
    err: Error;
-   ok;
+   ok: Profile;
  };
 type Result = 
  variant {
    err: Error;
-   ok: Profile;
+   ok;
  };
 type Profile = 
  record {
@@ -22,12 +22,17 @@ type PositionId = nat;
 type Error = 
  variant {
    AlreadyExists;
+   CouldntFollowTrader;
+   CouldntUnfollowTrader;
+   InvestorAlreadyFollowed;
    NotAuthorized;
    NotEnoughFamePoints;
    NotFound;
  };
 service : {
-  createInvestorProfile: (text, opt text) -> (Result_1);
-  deleteInvestorProfile: () -> (Result_1);
-  readInvestorProfile: () -> (Result);
+  createInvestorProfile: (text, opt text) -> (Result);
+  deleteInvestorProfile: () -> (Result);
+  followTrader: (TraderId) -> (Result);
+  readInvestorProfile: () -> (Result_1);
+  unfollowTrader: (TraderId) -> (Result);
 }

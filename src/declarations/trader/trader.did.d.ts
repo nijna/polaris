@@ -32,9 +32,11 @@ export interface _SERVICE {
     Result,
   >,
   'deleteTraderProfile' : ActorMethod<[], Result>,
+  'followTrader' : ActorMethod<[UserId, InvestorId], boolean>,
   'readAllTraderProfiles' : ActorMethod<[], Array<[UserId, Profile]>>,
   'readTraderFamePoints' : ActorMethod<[UserId], FamePoints>,
   'readTraderProfile' : ActorMethod<[], Result_1>,
   'traderPrincipalExists' : ActorMethod<[UserId], boolean>,
+  'unfollowTrader' : ActorMethod<[UserId, InvestorId], boolean>,
   'updateTraderBio' : ActorMethod<[string], Result>,
 }
