@@ -167,7 +167,7 @@ actor Trader {
     };
 
     // Chack if investor with given Principal exists
-    public shared func traderPrincipalExists (userId: Types.UserId) : async Bool {
+    public shared query func traderPrincipalExists (userId: Types.UserId) : async Bool {
         let result = Trie.find(
             profiles,
             key(userId),
@@ -184,7 +184,7 @@ actor Trader {
     };
 
     // read traders Fame Points
-    public shared func readTraderFamePoints (userId: Types.UserId) : async Types.FamePoints {
+    public shared query func readTraderFamePoints (userId: Types.UserId) : async Types.FamePoints {
         let r = Trie.find(
             profiles,
             key(userId),
@@ -201,7 +201,7 @@ actor Trader {
     };
 
     // read All trader profiles    
-    public func readAllTraderProfiles () : async [(Types.UserId, Types.Profile)] {
+    public query func readAllTraderProfiles () : async [(Types.UserId, Types.Profile)] {
         let arrayTraderProfiles : [(Types.UserId, Types.Profile)] = Iter.toArray(Trie.iter(profiles));
     };
 
