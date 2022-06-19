@@ -1,23 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
-    <title>nijna</title>
+    <title>Polaris|Start</title>
     <base href="/" />
     <link rel="icon" href="favicon.ico" />
-    <link type="text/css" rel="stylesheet" href="main.css" />
+
+    <style>
+    /* If someone mocks because of this... a "font.css" will not load fonts from the assets folder. */
+    @font-face {
+        font-family: "Manrope";
+        src: 
+            url("css/fonts/manrope/manrope-v12-latin-regular.woff2")
+            format("woff2"),
+            url("css/fonts/manrope/manrope-v12-latin-regular.woff")
+            format("woff"),
+            url("css/fonts/manrope/manrope-v12-latin-regular.ttf")
+            format("truetype");
+    }
+    </style>
+
+    <!-- add bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+
+    <!-- custom css -->
+    <link type="text/css" rel="stylesheet" href="css/root.min.css" />
+    <link type="text/css" rel="stylesheet" href="css/style.min.css" />
+
+    <!-- icons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
   </head>
-  <body>
-    <main>
-      <img src="logo.png" alt="DFINITY logo" />
-      <form action="#">
-        <label for="name">Enter your name: &nbsp;</label>
-        <input id="name" alt="Name" type="text" />
-        <button type="submit">Click Me!</button>
-      </form>
-      <section id="greeting"></section>
-      <div style="color:red; font-size: 24 px; text-align: center;">Test with Push to rep</div>
-    </main>
+  <body class="pt-1">
+    <nav class="navbar navbar-expand-lg navbar-dark p-0" aria-label="Navbar">
+        <div class="container">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse justify-content-md-center" id="navbar">
+                <ul class="navbar-nav justify-content-md-center" style="width: 100%">
+                        <li class="navigation_button active odd col-12 col-lg-2">
+                            <button class="d-lg-block button-custom-high" aria-current="login/signin"><img class="logo" src="img/polaris-black-logo-y34l.gif"></button>                           
+                        </li>
+                        <li class="navigation_button col-12 col-lg-8">
+                        </li>                        
+                        <li class="navigation_button col-12 col-lg-2">
+                            <button class="d-lg--block button-custom-high" aria-current="login/signin">LOGIN/SIGNUP</button>
+                        </li>
+                </ul>
+            </div>
+        </div>
+    </nav> 
+
+    <div class="container pt-1">
+
+        <main>
+        <form action="#">
+            <label for="name">Enter your name: &nbsp;</label>
+            <input id="name" alt="Name" type="text" />
+            <button type="submit">Click Me!</button>
+        </form>
+        <section id="greeting"></section>
+        <div style="color:red; font-size: 24 px; text-align: center;">Test with Push to rep</div>
+        </main>
+
+    </div>
   </body>
 </html>

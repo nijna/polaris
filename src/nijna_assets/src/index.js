@@ -1,4 +1,5 @@
 import { nijna } from "../../declarations/nijna_assets";
+import { trader } from "../../declarations/trader";
 
 document.querySelector("form").addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -9,7 +10,7 @@ document.querySelector("form").addEventListener("submit", async (e) => {
   button.setAttribute("disabled", true);
 
   // Interact with foo actor, calling the greet method
-  const greeting = await nijna.greet(name);
+  const greeting = await trader.readAllTraderProfiles();
 
   button.removeAttribute("disabled");
 

@@ -1,0 +1,33 @@
+body {
+    background-color: var(--background-primary);
+    color: var(--textcolor-primary);
+    font: var( --font-size-primary)/var(--font-lineheight-primary) var(--font-family-primary);
+}
+
+.logo {
+    background-color: var(--color-high-primary) !important;
+    margin: auto;
+}
+
+.navbar-custom {
+    background-color: var(--background-primary) !important;
+    color: var(--textcolor-secondary) !important;
+}
+
+.button-custom-high, .button-custom-low {
+    height: 56px;
+    width: 200px;
+    border-width: 1px;
+    border-radius: 12px;
+    border-style: solid;
+}
+
+.button-custom-high {
+    color: var(--textcolor-inverted-primary) !important;
+    background-color: var(--color-high-primary) !important;
+}
+
+.button-custom-low {
+    color: var(--textcolor-primary) !important;
+    background-color: var(--color-low-primary) !important;
+}
