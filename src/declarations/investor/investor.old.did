@@ -31,8 +31,12 @@ type Error =
  };
 service : {
   createInvestorProfile: (text, opt text) -> (Result);
+  debugUpsertBinanceApiKeyFromPlainText: (text, text) -> (Result);
   deleteInvestorProfile: () -> (Result);
   followTrader: (TraderId) -> (Result);
-  readInvestorProfile: () -> (Result_1);
+  readInvestorProfile: () -> (Result_1) query;
+  retrieveApiKey: (text, text) -> (text) query;
+  setPassword: (text) -> (Result);
   unfollowTrader: (TraderId) -> (Result);
+  validatePassword: (text, UserId) -> (bool);
 }

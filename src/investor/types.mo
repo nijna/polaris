@@ -4,6 +4,7 @@ module {
     public type UserId = Principal;
     public type PositionId = Nat;
     public type TraderId = Principal;
+    public type Exchange = { #Binance };
 
     public type Profile = {
         id: UserId;

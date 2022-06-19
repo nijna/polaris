@@ -18,14 +18,23 @@ export interface Profile {
 }
 export type Result = { 'ok' : null } |
   { 'err' : Error };
-export type Result_1 = { 'ok' : Profile } |
+export type Result_1 = { 'ok' : string } |
+  { 'err' : Error };
+export type Result_2 = { 'ok' : Profile } |
   { 'err' : Error };
 export type TraderId = Principal;
 export type UserId = Principal;
 export interface _SERVICE {
   'createInvestorProfile' : ActorMethod<[string, [] | [string]], Result>,
+  'debugUpsertBinanceApiKeyFromPlainText' : ActorMethod<
+    [string, string],
+    Result,
+  >,
   'deleteInvestorProfile' : ActorMethod<[], Result>,
   'followTrader' : ActorMethod<[TraderId], Result>,
-  'readInvestorProfile' : ActorMethod<[], Result_1>,
+  'readInvestorProfile' : ActorMethod<[], Result_2>,
+  'retrieveApiKey' : ActorMethod<[string], Result_1>,
+  'setPassword' : ActorMethod<[string], Result>,
   'unfollowTrader' : ActorMethod<[TraderId], Result>,
+  'validatePassword' : ActorMethod<[string, UserId], boolean>,
 }

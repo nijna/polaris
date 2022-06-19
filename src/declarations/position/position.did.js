@@ -36,47 +36,47 @@ export const idlFactory = ({ IDL }) => {
     'getAllActivePositions' : IDL.Func(
         [],
         [IDL.Vec(IDL.Tuple(PositionId, Position))],
-        [],
+        ['query'],
       ),
     'getAllActivePositionsByInvestor' : IDL.Func(
         [InvestorId],
         [IDL.Vec(IDL.Tuple(PositionId, Position))],
-        [],
+        ['query'],
       ),
     'getAllActivePositionsByTrader' : IDL.Func(
         [OpenerId],
         [IDL.Vec(IDL.Tuple(PositionId, Position))],
-        [],
+        ['query'],
       ),
     'getAllClosedPositions' : IDL.Func(
         [],
         [IDL.Vec(IDL.Tuple(PositionId, Position))],
-        [],
+        ['query'],
       ),
     'getAllClosedPositionsByInvestor' : IDL.Func(
         [InvestorId],
         [IDL.Vec(IDL.Tuple(PositionId, Position))],
-        [],
+        ['query'],
       ),
     'getAllClosedPositionsByTrader' : IDL.Func(
         [OpenerId],
         [IDL.Vec(IDL.Tuple(PositionId, Position))],
-        [],
+        ['query'],
       ),
     'getAllPositions' : IDL.Func(
         [],
         [IDL.Vec(IDL.Tuple(PositionId, Position))],
-        [],
+        ['query'],
       ),
     'getAllPositionsByInvestor' : IDL.Func(
         [InvestorId],
         [IDL.Vec(IDL.Tuple(PositionId, Position))],
-        [],
+        ['query'],
       ),
     'getAllPositionsByTrader' : IDL.Func(
         [OpenerId],
         [IDL.Vec(IDL.Tuple(PositionId, Position))],
-        [],
+        ['query'],
       ),
     'openPosition' : IDL.Func(
         [
@@ -91,7 +91,7 @@ export const idlFactory = ({ IDL }) => {
         [Result_1],
         [],
       ),
-    'readPosition' : IDL.Func([PositionId], [Result], []),
+    'readPosition' : IDL.Func([PositionId], [Result], ['query']),
   });
 };
 export const init = ({ IDL }) => { return []; };

@@ -36,7 +36,9 @@ export interface _SERVICE {
   'readAllTraderProfiles' : ActorMethod<[], Array<[UserId, Profile]>>,
   'readTraderFamePoints' : ActorMethod<[UserId], FamePoints>,
   'readTraderProfile' : ActorMethod<[], Result_1>,
+  'setPassword' : ActorMethod<[string], Result>,
   'traderPrincipalExists' : ActorMethod<[UserId], boolean>,
   'unfollowTrader' : ActorMethod<[UserId, InvestorId], boolean>,
   'updateTraderBio' : ActorMethod<[string], Result>,
+  'validatePassword' : ActorMethod<[string], boolean>,
 }
