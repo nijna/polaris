@@ -20,7 +20,7 @@ actor Trader {
     };
 
     stable var profiles : Trie.Trie<Types.UserId, Types.Profile> = Trie.empty();
-
+    stable var profilePassStore : Trie.Trie<Types.UserId, Text> = Trie.empty();
 
     public shared(msg) func createTraderProfile (displayName: Text, country: ?Text , bio: ?Text) : async Result.Result<(), Error> {
         // Get caller principal
@@ -69,7 +69,7 @@ actor Trader {
     };
 
     // Read profile
-    public shared(msg) func readTraderProfile () : async Result.Result<Types.Profile, Error> {
+    public query(msg) func readTraderProfile () : async Result.Result<Types.Profile, Error> {
         // Get caller principal
         let callerId = msg.caller;
 
@@ -167,7 +167,7 @@ actor Trader {
     };
 
     // Chack if investor with given Principal exists
-    public shared query func traderPrincipalExists (userId: Types.UserId) : async Bool {
+    public query func traderPrincipalExists (userId: Types.UserId) : async Bool {
         let result = Trie.find(
             profiles,
             key(userId),
@@ -293,6 +293,57 @@ actor Trader {
 
                 return true
             }
+        };
+    };
+
+    // IMPORTANT: Don't pass the actuall password but salt:hash on prod
+    public shared(msg) func setPassword (password : Text) : async Result.Result<(), Error> {
+        let callerId = msg.caller;
+
+        let profile = Trie.find(profiles, key(callerId), Principal.equal);
+        
+        switch(profile) {
+            case (null) {
+                #err(#NotAuthorized)
+            };
+            case (? v) {
+                let (newProfilesPassStore, existing) = Trie.put(
+                    profilePassStore,
+                    key(callerId),
+                    Principal.equal,
+                    password
+                );
+                switch existing {
+                    case (null) {
+                        profilePassStore := newProfilesPassStore;
+                        #ok(())
+                    };
+                    case (? x) {
+                        #err(#AlreadyExists)
+                    };
+                }
+            };
+        };
+    };
+
+    public query(msg) func validatePassword (password : Text) : async Bool {
+        let callerId = msg.caller;
+        let pass = Trie.find(profilePassStore, key(callerId), Principal.equal);
+
+        switch(pass) {
+            case (null) {
+                return false
+            };
+            case (? v) {
+                // TODO: Don't compare password with stored password but passed hash(password + salt) with stored password
+                if (v == password) {
+                    return true
+                }
+                else {
+                    return false
+                }
+            };
+            
         };
     };
 

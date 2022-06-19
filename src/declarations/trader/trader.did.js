@@ -35,13 +35,15 @@ export const idlFactory = ({ IDL }) => {
     'readAllTraderProfiles' : IDL.Func(
         [],
         [IDL.Vec(IDL.Tuple(UserId, Profile))],
-        [],
+        ['query'],
       ),
-    'readTraderFamePoints' : IDL.Func([UserId], [FamePoints], []),
-    'readTraderProfile' : IDL.Func([], [Result_1], []),
-    'traderPrincipalExists' : IDL.Func([UserId], [IDL.Bool], []),
+    'readTraderFamePoints' : IDL.Func([UserId], [FamePoints], ['query']),
+    'readTraderProfile' : IDL.Func([], [Result_1], ['query']),
+    'setPassword' : IDL.Func([IDL.Text], [Result], []),
+    'traderPrincipalExists' : IDL.Func([UserId], [IDL.Bool], ['query']),
     'unfollowTrader' : IDL.Func([UserId, InvestorId], [IDL.Bool], []),
     'updateTraderBio' : IDL.Func([IDL.Text], [Result], []),
+    'validatePassword' : IDL.Func([IDL.Text], [IDL.Bool], ['query']),
   });
 };
 export const init = ({ IDL }) => { return []; };

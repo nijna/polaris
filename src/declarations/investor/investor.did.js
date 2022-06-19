@@ -19,17 +19,26 @@ export const idlFactory = ({ IDL }) => {
     'investedPositions' : IDL.Vec(PositionId),
     'follows' : IDL.Vec(TraderId),
   });
-  const Result_1 = IDL.Variant({ 'ok' : Profile, 'err' : Error });
+  const Result_2 = IDL.Variant({ 'ok' : Profile, 'err' : Error });
+  const Result_1 = IDL.Variant({ 'ok' : IDL.Text, 'err' : Error });
   return IDL.Service({
     'createInvestorProfile' : IDL.Func(
         [IDL.Text, IDL.Opt(IDL.Text)],
         [Result],
         [],
       ),
+    'debugUpsertBinanceApiKeyFromPlainText' : IDL.Func(
+        [IDL.Text, IDL.Text],
+        [Result],
+        [],
+      ),
     'deleteInvestorProfile' : IDL.Func([], [Result], []),
     'followTrader' : IDL.Func([TraderId], [Result], []),
-    'readInvestorProfile' : IDL.Func([], [Result_1], []),
+    'readInvestorProfile' : IDL.Func([], [Result_2], ['query']),
+    'retrieveApiKey' : IDL.Func([IDL.Text], [Result_1], ['query']),
+    'setPassword' : IDL.Func([IDL.Text], [Result], []),
     'unfollowTrader' : IDL.Func([TraderId], [Result], []),
+    'validatePassword' : IDL.Func([IDL.Text, UserId], [IDL.Bool], []),
   });
 };
 export const init = ({ IDL }) => { return []; };

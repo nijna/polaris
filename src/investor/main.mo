@@ -1,9 +1,13 @@
 import Trie "mo:base/Trie";
 import Hash "mo:base/Hash";
+import Iter "mo:base/Iter";
+import Char "mo:base/Char";
+import Text "mo:base/Text";
 import Array "mo:base/Array";
+import List "mo:base/List";
+import Map "mo:base/HashMap";
 import Nat "mo:base/Nat";
 import Result "mo:base/Result";
-import HashMap "mo:base/HashMap";
 import Principal "mo:base/Principal";
 
 import Types "./types";
@@ -23,6 +27,9 @@ actor Investor {
     };
     
     stable var profiles : Trie.Trie<Types.UserId, Types.Profile> = Trie.empty();
+    stable var profilePassStore : Trie.Trie<Types.UserId, Text> = Trie.empty();
+    stable var profileStoreBinanceApiKeys : Trie.Trie<Types.UserId, [Nat32]> = Trie.empty();
+
 
     public shared(msg) func createInvestorProfile (displayName : Text, bio : ?Text) : async Result.Result<(), Error> {
         // Get caller principal
@@ -64,7 +71,7 @@ actor Investor {
     };
 
     // Read profile
-    public shared(msg) func readInvestorProfile () : async Result.Result<Types.Profile, Error> {
+    public query(msg) func readInvestorProfile () : async Result.Result<Types.Profile, Error> {
         // Get caller principal
         let callerId = msg.caller;
 
@@ -110,6 +117,39 @@ actor Investor {
                     Principal.equal,          // Equality checker
                     null
                 ).0;
+                let r1 = Trie.find(
+                    profilePassStore,
+                    key(callerId),
+                    Principal.equal
+                );
+                switch (r1) {
+                    case null {};
+                    case (? _v) {
+                        profilePassStore := Trie.replace(
+                            profilePassStore,
+                            key(callerId),
+                            Principal.equal,
+                            null
+                        ).0;
+                    };
+                };
+                let r2 = Trie.find(
+                    profileStoreBinanceApiKeys,
+                    key(callerId),
+                    Principal.equal
+                );
+                switch (r2) {
+                    case null {};
+                    case (? _v) {
+                        profileStoreBinanceApiKeys := Trie.replace(
+                            profileStoreBinanceApiKeys,
+                            key(callerId),
+                            Principal.equal,
+                            null
+                        ).0;
+                    };
+                };
+
                 #ok(());
             };
         };
@@ -142,6 +182,7 @@ actor Investor {
                         return #err(#CouldntFollowTrader);
                     }
                     else {
+                        // TODO: change to buffer append
                         let follows = Array.append<Principal>([traderId], v.follows);
 
                         let newInvestorProfile: Types.Profile = {
@@ -209,7 +250,147 @@ actor Investor {
         };
     };
 
+    // IMPORTANT: Don't pass the actuall password but salt:hash on prod
+    public shared(msg) func setPassword (password : Text) : async Result.Result<(), Error> {
+        let callerId = msg.caller;
+
+        let profile = Trie.find(profiles, key(callerId), Principal.equal);
+        
+        switch(profile) {
+            case (null) {
+                #err(#NotAuthorized)
+            };
+            case (? v) {
+                let (newProfilesPassStore, existing) = Trie.put(
+                    profilePassStore,
+                    key(callerId),
+                    Principal.equal,
+                    password
+                );
+                switch existing {
+                    case (null) {
+                        profilePassStore := newProfilesPassStore;
+                        #ok(())
+                    };
+                    case (? x) {
+                        #err(#AlreadyExists)
+                    };
+                }
+            };
+        };
+    };
+
+    //TODO move to utils
+    public query func validatePassword (password : Text, callerId: Types.UserId) : async Bool {
+        let pass = Trie.find(profilePassStore, key(callerId), Principal.equal);
+
+        switch(pass) {
+            case (null) {
+                return false
+            };
+            case (? v) {
+                // TODO: Don't compare password with stored password but passed hash(password + salt) with stored password
+                if (v == password) {
+                    return true
+                }
+                else {
+                    return false
+                }
+            };
+            
+        };
+    };
+
+    public shared(msg) func debugUpsertBinanceApiKeyFromPlainText(apiKey : Text, password : Text) : async Result.Result<(), Error> {
+        let callerId = msg.caller;
+        
+        // let passwordValid = validatePassword(password, callerId);
+        // if (passwordValid == false) {
+        //     return #err(#NotAuthorized)
+        // };
+
+        let passwordSize = Text.size(password);
+        let charsApi = Text.toIter(apiKey);
+        let charsPass = Iter.toList(Text.toIter(password));
+
+        var cpassNatArray : [Nat32] = [];
+        
+        var x = 0;
+
+        for (i in charsApi) {
+            let passChar = List.get(charsPass, x % passwordSize);
+            
+            switch (passChar) {
+                case (null) {};
+                case (? v) {
+                    cpassNatArray := Array.append<Nat32>(cpassNatArray, [Char.toNat32(i) ^ Char.toNat32(v)]);
+                    x += 1;
+                }
+            };
+        };
+
+        let newProfileStoreBinanceApiKeys = Trie.put(
+            profileStoreBinanceApiKeys,
+            key(callerId),
+            Principal.equal,
+            cpassNatArray
+        ).0;
+        
+        profileStoreBinanceApiKeys := newProfileStoreBinanceApiKeys;
+
+        return #ok(())
+        
+        
+    };
+
+    public query(msg) func retrieveApiKey(password : Text) : async Result.Result<(Text), Error> {
+        let callerId = msg.caller;
+
+        // let passwordValid : Bool = validatePassword(password, callerId);
+        // if (passwordValid == false) {
+        //     return #err(#NotAuthorized)
+        // };
+        let binanceKey = Trie.find(
+            profileStoreBinanceApiKeys,
+            key(callerId),
+            Principal.equal
+        );
+
+        if (binanceKey == null) {
+            return #ok((""))
+        };        
+        switch (binanceKey) {
+            case null {
+                return #ok((""))
+            };
+            case (? v){
+
+                let passwordSize = Text.size(password);
+                let charsPass = Iter.toList(Text.toIter(password));
+
+                var cArray : [Char] = [];
+                
+                var x = 0;
+
+                for (i in Iter.fromArray(v)) {
+                    let passChar = List.get(charsPass, x % passwordSize);
+                    
+                    switch (passChar) {
+                        case (null) {};
+                        case (? v) {
+                        cArray := Array.append<Char>(cArray, [Char.fromNat32(i ^ Char.toNat32(v))]);
+                        x += 1;
+                        }
+                    };
+                };
+
+                return #ok((Text.fromIter(Iter.fromArray(cArray))));
+            };
+        };
+    };
+
     private func key(x : Principal) : Trie.Key<Principal> {
         return { key = x; hash = Principal.hash(x) }
     };
+    private func textKey(t: Text) : Trie.Key<Text> { { key = t; hash = Text.hash t } };
 }
