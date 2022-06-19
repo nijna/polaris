@@ -1,0 +1,25 @@
+/* system wide variables */
+
+:root {
+    /* serves my ego */
+    --frontend-dev: "Peter";
+    
+    /* colors */
+    --background-primary: #000000;
+    --textcolor-primary: #FFFFFF;
+    --background-inverted-primary: #FFFFFF;
+    --textcolor-inverted-primary: #000000;
+    --textcolor-secondary: #AAAAAA;
+    --shadow-primary: #FFFFFF;
+    --color-high-primary: #FFEE53;
+    --color-low-primary: #7214F4;
+
+    /* fonts */
+    --font-family-primary: "Manrope";
+    --font-size-primary: 1em;
+    --font-lineheight-primary: 1.5em;
+    
+    /* div scalings */
+    --scale-height: 124;
+    --scale-border-radius: 0.5em;
+}

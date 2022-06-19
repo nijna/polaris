@@ -1,23 +1,145 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
-    <title>nijna</title>
+    <title>Polaris|Start</title>
     <base href="/" />
     <link rel="icon" href="favicon.ico" />
-    <link type="text/css" rel="stylesheet" href="main.css" />
+
+    <style>
+    /* If someone mocks because of this... "font.css" will not load fonts from the assets folder. */
+    @font-face {
+        font-family: "Manrope";
+        src: 
+            url("css/fonts/manrope/manrope-v12-latin-regular.woff2")
+            format("woff2"),
+            url("css/fonts/manrope/manrope-v12-latin-regular.woff")
+            format("woff"),
+            url("css/fonts/manrope/manrope-v12-latin-regular.ttf")
+            format("truetype");
+    }
+    </style>
+
+    <!-- add bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+
+    <!-- custom css -->
+    <link type="text/css" rel="stylesheet" href="css/root.min.css" />
+    <link type="text/css" rel="stylesheet" href="css/style.min.css" />
+    <link type="text/css" rel="stylesheet" href="css/index.min.css" />
+
+    <!-- icons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
   </head>
-  <body>
-    <main>
-      <img src="logo.png" alt="DFINITY logo" />
-      <form action="#">
-        <label for="name">Enter your name: &nbsp;</label>
-        <input id="name" alt="Name" type="text" />
-        <button type="submit">Click Me!</button>
-      </form>
-      <section id="greeting"></section>
-      <div style="color:red; font-size: 24 px; text-align: center;">Test with Push to rep</div>
+  
+  <body class="pt-1">
+
+    <nav class="navbar navbar-expand-lg navbar-dark p-0 mt-1 mb-4" aria-label="Navbar">
+        <div class="container">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse justify-content-md-center" id="navbar">
+                <ul class="navbar-nav justify-content-md-center" style="width: 100%">
+                        <li class="navigation_button active odd col-12 col-lg-2">
+                            <button class="d-lg-block button-custom high" aria-current="login/signin" id="signInButton1"><img class="logo" src="img/polaris-black-logo-y34l.gif"></button>                           
+                        </li>
+                        <li class="navigation_button col-12 col-lg-8">
+                        </li>                        
+                        <li class="navigation_button col-12 col-lg-2">
+                            <button class="d-lg--block button-custom high-inverted" aria-current="login/signin" id="signInButton2">LOGIN/SIGNUP</button>
+                        </li>
+                </ul>
+            </div>
+        </div>
+    </nav> 
+
+    <main class="container">
+        <div class="row show" id ="welcome">
+            
+            <div class="card hi3 low col-12 col-lg-12">
+                <div class="card-body">
+                    <img class="img-fluid position-absolute top-0 start-0" src="img/graycurve.png" />
+                    <img class="img-fluid position-absolute bottom-0 end-0" src="img/lightning.png" />
+                    <h4 class="fw-bold card-text text-center mt-4 text-high">DISCOVER</h4>
+                    <h1 class="fw-bold card-text text-center mt-4">FIND YOUR GUIDING LIGHT<br />
+                        FOR TRADING!</h1>
+                    <p class=" card-text text-center mt-4">We bring transparency in helping investors find reliable<br />
+                        traders and help traders attract more investors</p>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row hide" id="login">
+
+            <div class="col-12 col-lg-1">
+            </div>
+
+            <div class="card hi6 high col-12 col-lg-5 m-2 shadowHover show" id="loginTrader">
+                <div class="card-body">
+                    <h1 class="card-title fw-bold text-center text-uppercase position-relative top10">Login as Trader</h1>
+                    <p class="card-text text-center position-absolute bottom10">
+                        <img class="img-fluid" src="img/moneybag.png" />
+                    </p>
+                </div>
+            </div>
+
+            <div class="card hi6 inverted-primary col-12 col-lg-5 m-2 hide" id="loginTraderDo">
+                <div class="card-body full-height">
+                    <form class="vertical-align-wrapper">
+                        <div class="vertical-align">
+                            <div class="input-group justify-content-center">
+                                <span class="input-group-text" id="basic-addon1"><img src="img/icon/user.svg" /></span>
+                                <input class="form-control" type="text" name="username" value="" placeholder="EMAIL / USERNAME" aria-label="Username" aria-describedby="basic-addon1" />
+                            </div>
+                            <div class="input-group justify-content-center mt-2">
+                                <span class="input-group-text" id="basic-addon2"><img src="img/icon/password.svg" /></span>
+                                <input class="form-control" type="password" name="password" value="" placeholder="PASSWORD" aria-label="Username" aria-describedby="basic-addon2" />
+                            </div>
+                            <div class="input-group justify-content-center mt-5">
+                                <button class="d-lg-block button-custom fw-bold low" aria-current="login/signin" id="signInButton">LOGIN</button>
+                            </div>
+                            <div class="input-group justify-content-center fw-bold mt-3">OR</div>
+                            <div class="input-group justify-content-center mt-3">
+                                <button class="d-lg-block button-custom fw-bold low" aria-current="create Account" id="createAccount">CREATE AN ACCOUNT</button>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card hi6 low col-12 col-lg-5 m-2 shadowHover show" id="loginInvestor">
+                <div class="card-body">
+                    <h1 class="card-title fw-bold text-center text-uppercase position-relative top10">Login as Investor</h1>
+                    <p class="card-text text-center position-absolute bottom10">
+                        <img class="img-fluid" src="img/moneychange.png" />
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-12 col-lg-1">
+            </div>
+        </div>
+
     </main>
+
+    <footer class="container pt-1">
+    </footer>
+
+    <script src="js/index.js"></script>
   </body>
+
 </html>
