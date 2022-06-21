@@ -7,8 +7,8 @@ export const idlFactory = ({ IDL }) => {
   });
   const Result = IDL.Variant({ 'ok' : IDL.Null, 'err' : Error });
   const UserId = IDL.Principal;
-  const FamePoints = IDL.Nat;
   const InvestorId = IDL.Principal;
+  const FamePoints = IDL.Nat;
   const Profile = IDL.Record({
     'id' : UserId,
     'bio' : IDL.Opt(IDL.Text),
@@ -31,15 +31,19 @@ export const idlFactory = ({ IDL }) => {
         [],
       ),
     'deleteTraderProfile' : IDL.Func([], [Result], []),
+    'followTrader' : IDL.Func([UserId, InvestorId], [IDL.Bool], []),
     'readAllTraderProfiles' : IDL.Func(
         [],
         [IDL.Vec(IDL.Tuple(UserId, Profile))],
-        [],
+        ['query'],
       ),
-    'readTraderFamePoints' : IDL.Func([UserId], [FamePoints], []),
-    'readTraderProfile' : IDL.Func([], [Result_1], []),
-    'traderPrincipalExists' : IDL.Func([UserId], [IDL.Bool], []),
+    'readTraderFamePoints' : IDL.Func([UserId], [FamePoints], ['query']),
+    'readTraderProfile' : IDL.Func([], [Result_1], ['query']),
+    'setPassword' : IDL.Func([IDL.Text], [Result], []),
+    'traderPrincipalExists' : IDL.Func([UserId], [IDL.Bool], ['query']),
+    'unfollowTrader' : IDL.Func([UserId, InvestorId], [IDL.Bool], []),
     'updateTraderBio' : IDL.Func([IDL.Text], [Result], []),
+    'validatePassword' : IDL.Func([IDL.Text], [IDL.Bool], ['query']),
   });
 };
 export const init = ({ IDL }) => { return []; };

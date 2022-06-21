@@ -36,12 +36,16 @@ type Error =
 service : {
   createTraderProfile: (text, opt text, opt text) -> (Result);
   deleteTraderProfile: () -> (Result);
+  followTrader: (UserId, InvestorId) -> (bool);
   readAllTraderProfiles: () -> (vec record {
                                       UserId;
                                       Profile;
-                                    });
-  readTraderFamePoints: (UserId) -> (FamePoints);
-  readTraderProfile: () -> (Result_1);
-  traderPrincipalExists: (UserId) -> (bool);
+                                    }) query;
+  readTraderFamePoints: (UserId) -> (FamePoints) query;
+  readTraderProfile: () -> (Result_1) query;
+  setPassword: (text) -> (Result);
+  traderPrincipalExists: (UserId) -> (bool) query;
+  unfollowTrader: (UserId, InvestorId) -> (bool);
   updateTraderBio: (text) -> (Result);
+  validatePassword: (text) -> (bool) query;
 }

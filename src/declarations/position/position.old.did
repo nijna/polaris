@@ -49,13 +49,46 @@ service : {
   getAllActivePositions: () -> (vec record {
                                       PositionId;
                                       Position;
-                                    });
+                                    }) query;
+  getAllActivePositionsByInvestor: (InvestorId) ->
+   (vec record {
+          PositionId;
+          Position;
+        }) query;
   getAllActivePositionsByTrader: (OpenerId) ->
    (vec record {
           PositionId;
           Position;
-        });
+        }) query;
+  getAllClosedPositions: () -> (vec record {
+                                      PositionId;
+                                      Position;
+                                    }) query;
+  getAllClosedPositionsByInvestor: (InvestorId) ->
+   (vec record {
+          PositionId;
+          Position;
+        }) query;
+  getAllClosedPositionsByTrader: (OpenerId) ->
+   (vec record {
+          PositionId;
+          Position;
+        }) query;
+  getAllPositions: () -> (vec record {
+                                PositionId;
+                                Position;
+                              }) query;
+  getAllPositionsByInvestor: (InvestorId) ->
+   (vec record {
+          PositionId;
+          Position;
+        }) query;
+  getAllPositionsByTrader: (OpenerId) ->
+   (vec record {
+          PositionId;
+          Position;
+        }) query;
   openPosition: (Pair, Exchange, float64, float64, float64, int, bool) ->
    (Result_1);
-  readPosition: (PositionId) -> (Result);
+  readPosition: (PositionId) -> (Result) query;
 }

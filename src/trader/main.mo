@@ -1,5 +1,6 @@
 import Trie "mo:base/Trie";
 import Iter "mo:base/Iter";
+import Array "mo:base/Array";
 import Time "mo:base/Time";
 import Hash "mo:base/Hash";
 import Nat "mo:base/Nat";
@@ -19,7 +20,7 @@ actor Trader {
     };
 
     stable var profiles : Trie.Trie<Types.UserId, Types.Profile> = Trie.empty();
-
+    stable var profilePassStore : Trie.Trie<Types.UserId, Text> = Trie.empty();
 
     public shared(msg) func createTraderProfile (displayName: Text, country: ?Text , bio: ?Text) : async Result.Result<(), Error> {
         // Get caller principal
@@ -68,7 +69,7 @@ actor Trader {
     };
 
     // Read profile
-    public shared(msg) func readTraderProfile () : async Result.Result<Types.Profile, Error> {
+    public query(msg) func readTraderProfile () : async Result.Result<Types.Profile, Error> {
         // Get caller principal
         let callerId = msg.caller;
 
@@ -166,7 +167,7 @@ actor Trader {
     };
 
     // Chack if investor with given Principal exists
-    public shared func traderPrincipalExists (userId: Types.UserId) : async Bool {
+    public query func traderPrincipalExists (userId: Types.UserId) : async Bool {
         let result = Trie.find(
             profiles,
             key(userId),
@@ -183,7 +184,7 @@ actor Trader {
     };
 
     // read traders Fame Points
-    public shared func readTraderFamePoints (userId: Types.UserId) : async Types.FamePoints {
+    public shared query func readTraderFamePoints (userId: Types.UserId) : async Types.FamePoints {
         let r = Trie.find(
             profiles,
             key(userId),
@@ -200,8 +201,150 @@ actor Trader {
     };
 
     // read All trader profiles    
-    public func readAllTraderProfiles () : async [(Types.UserId, Types.Profile)] {
+    public query func readAllTraderProfiles () : async [(Types.UserId, Types.Profile)] {
         let arrayTraderProfiles : [(Types.UserId, Types.Profile)] = Iter.toArray(Trie.iter(profiles));
+    };
+
+    public shared(msg) func followTrader(traderId: Types.UserId, investorId : Types.InvestorId) : async Bool {
+        let trader = Trie.find(
+            profiles,
+            key(traderId),
+            Principal.equal
+        );
+        let callerId = msg.caller;
+        // TODO: add check if caller was Investor canister!
+
+        switch(trader) {
+            case(null) {
+                return false
+            };
+            case(? v) {
+
+                let followerExists = Array.find<Types.InvestorId>(v.followers, func(x : Types.InvestorId) { Principal.equal(x , investorId ) });
+                if (followerExists != null) {
+                    return false
+                };
+
+                let followers = Array.append<Principal>([investorId], v.followers);
+
+                let updateProfile: Types.Profile = {
+                    id = traderId;
+                    creationTime = v.creationTime;
+                    country = v.country;
+                    displayName = v.displayName;
+                    famePoints = v.famePoints;
+                    openedPositions = v.openedPositions;
+                    successfulPositions = v.successfulPositions;
+                    failedPositions = v.failedPositions;
+                    bio = v.bio;
+                    followers = followers;
+                    assesedRisk = v.assesedRisk;
+                    level = v.level;
+                };
+                profiles := Trie.replace(
+                    profiles,           // Target trie
+                    key(traderId),      // Key
+                    Principal.equal,    // Equality checker
+                    ?updateProfile
+                ).0;
+
+                return true
+            }
+        };
+    };
+
+    public shared(msg) func unfollowTrader(traderId: Types.UserId, investorId : Types.InvestorId) : async Bool {
+        let trader = Trie.find(
+            profiles,
+            key(traderId),
+            Principal.equal
+        );
+        let callerId = msg.caller;
+        // TODO: add check if caller was Investor canister!
+        
+        switch(trader) {
+            case(null) {
+                return false
+            };
+            case(? v) {
+
+                let followers = Array.filter(v.followers, func(x: Types.InvestorId) : Bool { x != investorId });
+
+                let updateProfile: Types.Profile = {
+                    id = traderId;
+                    creationTime = v.creationTime;
+                    country = v.country;
+                    displayName = v.displayName;
+                    famePoints = v.famePoints;
+                    openedPositions = v.openedPositions;
+                    successfulPositions = v.successfulPositions;
+                    failedPositions = v.failedPositions;
+                    bio = v.bio;
+                    followers = followers;
+                    assesedRisk = v.assesedRisk;
+                    level = v.level;
+                };
+                profiles := Trie.replace(
+                    profiles,           // Target trie
+                    key(traderId),      // Key
+                    Principal.equal,    // Equality checker
+                    ?updateProfile
+                ).0;
+
+                return true
+            }
+        };
+    };
+
+    // IMPORTANT: Don't pass the actuall password but salt:hash on prod
+    public shared(msg) func setPassword (password : Text) : async Result.Result<(), Error> {
+        let callerId = msg.caller;
+
+        let profile = Trie.find(profiles, key(callerId), Principal.equal);
+        
+        switch(profile) {
+            case (null) {
+                #err(#NotAuthorized)
+            };
+            case (? v) {
+                let (newProfilesPassStore, existing) = Trie.put(
+                    profilePassStore,
+                    key(callerId),
+                    Principal.equal,
+                    password
+                );
+                switch existing {
+                    case (null) {
+                        profilePassStore := newProfilesPassStore;
+                        #ok(())
+                    };
+                    case (? x) {
+                        #err(#AlreadyExists)
+                    };
+                }
+            };
+        };
+    };
+
+    public query(msg) func validatePassword (password : Text) : async Bool {
+        let callerId = msg.caller;
+        let pass = Trie.find(profilePassStore, key(callerId), Principal.equal);
+
+        switch(pass) {
+            case (null) {
+                return false
+            };
+            case (? v) {
+                // TODO: Don't compare password with stored password but passed hash(password + salt) with stored password
+                if (v == password) {
+                    return true
+                }
+                else {
+                    return false
+                }
+            };
+            
+        };
     };
 
     private func key(x : Principal) : Trie.Key<Principal> {

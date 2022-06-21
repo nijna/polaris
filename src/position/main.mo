@@ -101,7 +101,7 @@ actor Position {
     };
 
     // Read position
-    public func readPosition (_positionId: Types.PositionId) : async Result.Result<Types.Position, Error>  {
+    public query func readPosition (_positionId: Types.PositionId) : async Result.Result<Types.Position, Error>  {
         let result = Trie.find(
             positions,
             key(_positionId),
@@ -164,41 +164,41 @@ actor Position {
 
     };
 
-    public func getAllActivePositions () : async [(Types.PositionId, Types.Position)]  {
+    public query func getAllActivePositions () : async [(Types.PositionId, Types.Position)]  {
         let activePositions = Trie.filter<Types.PositionId, Types.Position>(positions, func (k, v) {
             (v.active == true) and (v.closingTime > Time.now())
         });
         let arrayActivePositions : [(Types.PositionId, Types.Position)] = Iter.toArray(Trie.iter(activePositions));
         return arrayActivePositions
     };
-    public func getAllClosedPositions () : async [(Types.PositionId, Types.Position)]  {
+    public query func getAllClosedPositions () : async [(Types.PositionId, Types.Position)]  {
         let closedPositions = Trie.filter<Types.PositionId, Types.Position>(positions, func (k, v) {
             (v.active == false) or (v.closingTime <= Time.now())
         });
         let arrayClosedPositions : [(Types.PositionId, Types.Position)] = Iter.toArray(Trie.iter(closedPositions));
         return arrayClosedPositions
     };
-    public func getAllPositions () : async [(Types.PositionId, Types.Position)]  {
+    public query func getAllPositions () : async [(Types.PositionId, Types.Position)]  {
         let arrayPositions : [(Types.PositionId, Types.Position)] = Iter.toArray(Trie.iter(positions));
         return arrayPositions
     };
 
 
-    public func getAllActivePositionsByTrader (openerId: Types.OpenerId) : async [(Types.PositionId, Types.Position)]  {
+    public query func getAllActivePositionsByTrader (openerId: Types.OpenerId) : async [(Types.PositionId, Types.Position)]  {
         let activePositions = Trie.filter<Types.PositionId, Types.Position>(positions, func (k, v) {
             (v.active == true) and (v.closingTime > Time.now()) and (Principal.equal(openerId, v.openerId))
         });
         let arrayActivePositions : [(Types.PositionId, Types.Position)] = Iter.toArray(Trie.iter(activePositions));
         return arrayActivePositions
     };
-    public func getAllClosedPositionsByTrader (openerId: Types.OpenerId) : async [(Types.PositionId, Types.Position)]  {
+    public query func getAllClosedPositionsByTrader (openerId: Types.OpenerId) : async [(Types.PositionId, Types.Position)]  {
         let closedPositions = Trie.filter<Types.PositionId, Types.Position>(positions, func (k, v) {
             (v.active == false) or (v.closingTime <= Time.now()) and (Principal.equal(openerId, v.openerId))
         });
         let arrayClosedPositions : [(Types.PositionId, Types.Position)] = Iter.toArray(Trie.iter(closedPositions));
         return arrayClosedPositions
     };
-    public func getAllPositionsByTrader (openerId: Types.OpenerId) : async [(Types.PositionId, Types.Position)]  {
+    public query func getAllPositionsByTrader (openerId: Types.OpenerId) : async [(Types.PositionId, Types.Position)]  {
         let traderPositions = Trie.filter<Types.PositionId, Types.Position>(positions, func (k, v) {
             Principal.equal(openerId, v.openerId)
         });
@@ -207,7 +207,7 @@ actor Position {
     };
 
 
-    public func getAllActivePositionsByInvestor (investorId: Types.InvestorId) : async [(Types.PositionId, Types.Position)]  {
+    public query func getAllActivePositionsByInvestor (investorId: Types.InvestorId) : async [(Types.PositionId, Types.Position)]  {
         let activePositions = Trie.filter<Types.PositionId, Types.Position>(positions, func (k, v) {
             (v.active == true) and (v.closingTime > Time.now()) and (
                 Array.find<Types.InvestorId>(v.investorIds, func(x : Types.InvestorId) { Principal.equal(x , investorId ) }) != null
@@ -216,7 +216,7 @@ actor Position {
         let arrayActivePositions : [(Types.PositionId, Types.Position)] = Iter.toArray(Trie.iter(activePositions));
         return arrayActivePositions
     };
-    public func getAllClosedPositionsByInvestor (investorId: Types.InvestorId) : async [(Types.PositionId, Types.Position)]  {
+    public query func getAllClosedPositionsByInvestor (investorId: Types.InvestorId) : async [(Types.PositionId, Types.Position)]  {
         let closedPositions = Trie.filter<Types.PositionId, Types.Position>(positions, func (k, v) {
             (v.active == false) or (v.closingTime <= Time.now()) and (
                 Array.find<Types.InvestorId>(v.investorIds, func(x : Types.InvestorId) { Principal.equal(x , investorId ) }) != null
@@ -225,7 +225,7 @@ actor Position {
         let arrayClosedPositions : [(Types.PositionId, Types.Position)] = Iter.toArray(Trie.iter(closedPositions));
         return arrayClosedPositions
     };
-    public func getAllPositionsByInvestor (investorId: Types.InvestorId) : async [(Types.PositionId, Types.Position)]  {
+    public query func getAllPositionsByInvestor (investorId: Types.InvestorId) : async [(Types.PositionId, Types.Position)]  {
         let investorPositions = Trie.filter<Types.PositionId, Types.Position>(positions, func (k, v) {
             Array.find<Types.InvestorId>(v.investorIds, func(x : Types.InvestorId) { Principal.equal(x , investorId ) }) != null
         });

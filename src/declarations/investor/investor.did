@@ -1,14 +1,19 @@
 type UserId = principal;
 type TraderId = principal;
+type Result_2 = 
+ variant {
+   err: Error;
+   ok: Profile;
+ };
 type Result_1 = 
  variant {
    err: Error;
-   ok;
+   ok: text;
  };
 type Result = 
  variant {
    err: Error;
-   ok: Profile;
+   ok;
  };
 type Profile = 
  record {
@@ -22,12 +27,21 @@ type PositionId = nat;
 type Error = 
  variant {
    AlreadyExists;
+   CouldntFollowTrader;
+   CouldntUnfollowTrader;
+   InvestorAlreadyFollowed;
    NotAuthorized;
    NotEnoughFamePoints;
    NotFound;
  };
 service : {
-  createInvestorProfile: (text, opt text) -> (Result_1);
-  deleteInvestorProfile: () -> (Result_1);
-  readInvestorProfile: () -> (Result);
+  createInvestorProfile: (text, opt text) -> (Result);
+  debugUpsertBinanceApiKeyFromPlainText: (text, text) -> (Result);
+  deleteInvestorProfile: () -> (Result);
+  followTrader: (TraderId) -> (Result);
+  readInvestorProfile: () -> (Result_2) query;
+  retrieveApiKey: (text) -> (Result_1) query;
+  setPassword: (text) -> (Result);
+  unfollowTrader: (TraderId) -> (Result);
+  validatePassword: (text, UserId) -> (bool);
 }

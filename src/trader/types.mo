@@ -22,7 +22,7 @@ module {
         level: Nat;
     };
 
-
+    
     public type Error = {
         #NotFound;
         #AlreadyExists;
