@@ -1,7 +1,7 @@
 import { AuthClient } from "@dfinity/auth-client";
 import { nijna } from "../../declarations/nijna_assets";
 import { trader } from "../../declarations/trader";
-import { canisterId, createActor } from "../../declarations/whoami";
+
 
 const init = async () => {
     const authClient = await AuthClient.create();
