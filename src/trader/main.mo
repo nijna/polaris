@@ -27,9 +27,9 @@ actor Trader {
         let callerId = msg.caller;
 
         // Reject AnonymousIdentity
-        // if(Principal.toText(callerId) == "2vxsx-fae") {
-        //     return #err(#NotAuthorized);
-        // };
+        if(Principal.toText(callerId) == "2vxsx-fae") {
+            return #err(#NotAuthorized);
+        };
 
         // Associate user profile with their principal
         let userProfile: Types.Profile = {
@@ -74,9 +74,9 @@ actor Trader {
         let callerId = msg.caller;
 
         // Reject AnonymousIdentity
-        // if (Principal.toText(callerId) == "2vxsx-fae") {
-        //     return #err(#NotAuthorized);
-        // };
+        if (Principal.toText(callerId) == "2vxsx-fae") {
+            return #err(#NotAuthorized);
+        };
 
         let result = Trie.find(
             profiles,           //Target Trie
@@ -92,9 +92,9 @@ actor Trader {
         let callerId = msg.caller;
 
         // Reject AnonymousIdentity
-        // if(Principal.toText(callerId) == "2vxsx-fae") {
-        //     return #err(#NotAuthorized);
-        // };
+        if(Principal.toText(callerId) == "2vxsx-fae") {
+            return #err(#NotAuthorized);
+        };
 
         let result = Trie.find(
             profiles,           //Target Trie
@@ -139,9 +139,9 @@ actor Trader {
         let callerId = msg.caller;
 
         // Reject AnonymousIdentity
-        // if(Principal.toText(callerId) == "2vxsx-fae") {
-        //     return #err(#NotAuthorized);
-        // };
+        if(Principal.toText(callerId) == "2vxsx-fae") {
+            return #err(#NotAuthorized);
+        };
 
         let result = Trie.find(
             profiles,           //Target Trie
@@ -224,7 +224,7 @@ actor Trader {
                 if (followerExists != null) {
                     return false
                 };
-
+                // TODO: Change to use Buffer.append
                 let followers = Array.append<Principal>([investorId], v.followers);
 
                 let updateProfile: Types.Profile = {
@@ -326,6 +326,7 @@ actor Trader {
         };
     };
 
+    // TODO move to utils
     public query(msg) func validatePassword (password : Text) : async Bool {
         let callerId = msg.caller;
         let pass = Trie.find(profilePassStore, key(callerId), Principal.equal);
