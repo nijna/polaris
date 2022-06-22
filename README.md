@@ -42,3 +42,8 @@ Which will start a server at `http://localhost:8080`, proxying API requests to t
 - [Motoko Programming Language Guide](https://sdk.dfinity.org/docs/language-guide/motoko.html)
 - [Motoko Language Quick Reference](https://sdk.dfinity.org/docs/language-guide/language-manual.html)
 - [JavaScript API Reference](https://erxue-5aaaa-aaaab-qaagq-cai.raw.ic0.app)
+
+## TODO
+- add unittests
+- change Array.append to Buffer.append
+- move some functions from `main.mo` of each canister to `utils.mo`
