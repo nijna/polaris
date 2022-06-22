@@ -325,6 +325,7 @@ actor Investor {
             switch (passChar) {
                 case (null) {};
                 case (? v) {
+                    // TODO: Change to use Buffer.append
                     cpassNatArray := Array.append<Nat32>(cpassNatArray, [Char.toNat32(i) ^ Char.toNat32(v)]);
                     x += 1;
                 }
@@ -382,6 +383,7 @@ actor Investor {
                     switch (passChar) {
                         case (null) {};
                         case (? v) {
+                        // TODO: Change to use Buffer.append
                         cArray := Array.append<Char>(cArray, [Char.fromNat32(i ^ Char.toNat32(v))]);
                         x += 1;
                         }

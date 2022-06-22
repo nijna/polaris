@@ -224,7 +224,7 @@ actor Trader {
                 if (followerExists != null) {
                     return false
                 };
-
+                // TODO: Change to use Buffer.append
                 let followers = Array.append<Principal>([investorId], v.followers);
 
                 let updateProfile: Types.Profile = {
