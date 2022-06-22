@@ -35,10 +35,10 @@ actor Investor {
         // Get caller principal
         let callerId = msg.caller;
 
-        // Reject AnonymousIdentity
-        // if(Principal.toText(callerId) == "2vxsx-fae") {
-        //     return #err(#NotAuthorized);
-        // };
+        //Reject AnonymousIdentity
+        if(Principal.toText(callerId) == "2vxsx-fae") {
+            return #err(#NotAuthorized);
+        };
 
         // Associate user profile with their principal
         let userProfile: Types.Profile = {
@@ -76,9 +76,9 @@ actor Investor {
         let callerId = msg.caller;
 
         // Reject AnonymousIdentity
-        // if(Principal.toText(callerId) == "2vxsx-fae") {
-        //     return #err(#NotAuthorized);
-        // };
+        if(Principal.toText(callerId) == "2vxsx-fae") {
+            return #err(#NotAuthorized);
+        };
 
         let result = Trie.find(
             profiles,           //Target Trie
@@ -95,9 +95,9 @@ actor Investor {
         let callerId = msg.caller;
 
         // Reject AnonymousIdentity
-        // if(Principal.toText(callerId) == "2vxsx-fae") {
-        //     return #err(#NotAuthorized);
-        // };
+        if(Principal.toText(callerId) == "2vxsx-fae") {
+            return #err(#NotAuthorized);
+        };
 
         let result = Trie.find(
             profiles,           //Target Trie
@@ -159,9 +159,9 @@ actor Investor {
         let callerId = msg.caller;
 
         // Reject AnonymousIdentity
-        // if(Principal.toText(callerId) == "2vxsx-fae") {
-        //     return #err(#NotAuthorized);
-        // };
+        if(Principal.toText(callerId) == "2vxsx-fae") {
+            return #err(#NotAuthorized);
+        };
         let investorProfile = Trie.find(
             profiles,           //Target Trie
             key(callerId),      // Key
@@ -210,9 +210,9 @@ actor Investor {
         let callerId = msg.caller;
 
         // Reject AnonymousIdentity
-        // if(Principal.toText(callerId) == "2vxsx-fae") {
-        //     return #err(#NotAuthorized);
-        // };
+        if(Principal.toText(callerId) == "2vxsx-fae") {
+            return #err(#NotAuthorized);
+        };
         let investorProfile = Trie.find(
             profiles,           //Target Trie
             key(callerId),      // Key
@@ -301,9 +301,11 @@ actor Investor {
         };
     };
 
+    // TODO move to utils
     public shared(msg) func debugUpsertBinanceApiKeyFromPlainText(apiKey : Text, password : Text) : async Result.Result<(), Error> {
         let callerId = msg.caller;
         
+        // TODO: uncomment after testing
         // let passwordValid = validatePassword(password, callerId);
         // if (passwordValid == false) {
         //     return #err(#NotAuthorized)
@@ -343,9 +345,11 @@ actor Investor {
         
     };
 
+    // TODO move to utils
     public query(msg) func retrieveApiKey(password : Text) : async Result.Result<(Text), Error> {
         let callerId = msg.caller;
 
+        // TODO: uncomment after testing
         // let passwordValid : Bool = validatePassword(password, callerId);
         // if (passwordValid == false) {
         //     return #err(#NotAuthorized)

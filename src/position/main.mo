@@ -55,9 +55,9 @@ actor Position {
         };  
 
         // Reject AnonymousIdentity
-        // if(Principal.toText(callerId) == "2vxsx-fae") {
-        //     return #err(#NotAuthorized);
-        // };
+        if(Principal.toText(callerId) == "2vxsx-fae") {
+            return #err(#NotAuthorized);
+        };
 
         // Check if caller exists as trader
         if (exists != true) {
