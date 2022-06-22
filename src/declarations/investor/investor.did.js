@@ -38,7 +38,7 @@ export const idlFactory = ({ IDL }) => {
     'retrieveApiKey' : IDL.Func([IDL.Text], [Result_1], ['query']),
     'setPassword' : IDL.Func([IDL.Text], [Result], []),
     'unfollowTrader' : IDL.Func([TraderId], [Result], []),
-    'validatePassword' : IDL.Func([IDL.Text, UserId], [IDL.Bool], []),
+    'validatePassword' : IDL.Func([IDL.Text, UserId], [IDL.Bool], ['query']),
   });
 };
 export const init = ({ IDL }) => { return []; };

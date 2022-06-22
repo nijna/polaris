@@ -1,9 +1,14 @@
 type UserId = principal;
 type TraderId = principal;
-type Result_1 = 
+type Result_2 = 
  variant {
    err: Error;
    ok: Profile;
+ };
+type Result_1 = 
+ variant {
+   err: Error;
+   ok: text;
  };
 type Result = 
  variant {
@@ -34,9 +39,9 @@ service : {
   debugUpsertBinanceApiKeyFromPlainText: (text, text) -> (Result);
   deleteInvestorProfile: () -> (Result);
   followTrader: (TraderId) -> (Result);
-  readInvestorProfile: () -> (Result_1) query;
-  retrieveApiKey: (text, text) -> (text) query;
+  readInvestorProfile: () -> (Result_2) query;
+  retrieveApiKey: (text) -> (Result_1) query;
   setPassword: (text) -> (Result);
   unfollowTrader: (TraderId) -> (Result);
-  validatePassword: (text, UserId) -> (bool);
+  validatePassword: (text, UserId) -> (bool) query;
 }

@@ -43,5 +43,5 @@ service : {
   retrieveApiKey: (text) -> (Result_1) query;
   setPassword: (text) -> (Result);
   unfollowTrader: (TraderId) -> (Result);
-  validatePassword: (text, UserId) -> (bool);
+  validatePassword: (text, UserId) -> (bool) query;
 }
